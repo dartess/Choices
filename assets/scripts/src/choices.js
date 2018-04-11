@@ -29,7 +29,8 @@ import {
   sortByScore,
   generateId,
   triggerEvent,
-  findAncestorByAttrName
+  findAncestorByAttrName,
+  arrayFrom
 }
 from './lib/utils.js';
 import './lib/polyfills.js';
@@ -1715,7 +1716,7 @@ class Choices {
         let nextEl;
         if (skipKey) {
           if (directionInt > 0) {
-            nextEl = Array.from(this.dropdown.querySelectorAll('[data-choice-selectable]')).pop();
+            nextEl = arrayFrom(this.dropdown.querySelectorAll('[data-choice-selectable]')).pop();
           } else {
             nextEl = this.dropdown.querySelector('[data-choice-selectable]');
           }
@@ -2183,11 +2184,11 @@ class Choices {
    */
   _highlightChoice(el = null) {
     // Highlight first element in dropdown
-    const choices = Array.from(this.dropdown.querySelectorAll('[data-choice-selectable]'));
+    const choices = arrayFrom(this.dropdown.querySelectorAll('[data-choice-selectable]'));
     let passedEl = el;
 
     if (choices && choices.length) {
-      const highlightedChoices = Array.from(this.dropdown.querySelectorAll(`.${this.config.classNames.highlightedState}`));
+      const highlightedChoices = arrayFrom(this.dropdown.querySelectorAll(`.${this.config.classNames.highlightedState}`));
 
       // Remove any highlighted choices
       highlightedChoices.forEach((choice) => {
@@ -2400,7 +2401,7 @@ class Choices {
    * @private
    */
   _addGroup(group, id, valueKey = 'value', labelKey = 'label') {
-    const groupChoices = isType('Object', group) ? group.choices : Array.from(group.getElementsByTagName('OPTION'));
+    const groupChoices = isType('Object', group) ? group.choices : arrayFrom(group.getElementsByTagName('OPTION'));
     const groupId = id ? id : Math.floor(new Date().valueOf() * Math.random());
     const isDisabled = group.disabled ? group.disabled : false;
 
@@ -2789,7 +2790,7 @@ class Choices {
     }
 
     if (this.isSelectElement) {
-      const passedGroups = Array.from(this.passedElement.getElementsByTagName('OPTGROUP'));
+      const passedGroups = arrayFrom(this.passedElement.getElementsByTagName('OPTGROUP'));
 
       this.highlightPosition = 0;
       this.isSearching = false;
@@ -2801,7 +2802,7 @@ class Choices {
           this._addGroup(group, (group.id || null));
         });
       } else {
-        const passedOptions = Array.from(this.passedElement.options);
+        const passedOptions = arrayFrom(this.passedElement.options);
         const filter = this.config.sortFilter;
         const allChoices = this.presetChoices;
 
